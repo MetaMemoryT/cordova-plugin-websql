@@ -1,5 +1,6 @@
 ﻿var expect = chai.expect;
 var db = null;
+debugger;
 
 function fragment(html) {
   var args = arguments
@@ -48,6 +49,7 @@ describe("Db", function () {
             function (tx, err) { console.log("err: ", err); });
         tx.executeSql('SELECT * FROM foo', [], (function (tx, res) {
           expect(res.rows[0].text).to.equal("foobar");
+          debugger;
           done();
         }),
         function (tx, err) {
@@ -57,6 +59,32 @@ describe("Db", function () {
         });
       });
     });
+
+    it("should insert and select 2", function (done) {
+      this.timeout(3000);
+      db.transaction(function (tx) {
+        tx.executeSql('DROP TABLE IF EXISTS foo', [],
+          function (tx, res) { },
+          function (tx, err) { console.log("err: ", err); });
+        tx.executeSql('CREATE TABLE IF NOT EXISTS foo (id unique, text)', [],
+            function (tx, res) { },
+            function (tx, err) { console.log("err: ", err); });
+        tx.executeSql('INSERT INTO foo (id, text) VALUES (?, ?)', [1, "foobar"],
+            function (tx, res) { },
+            function (tx, err) { console.log("err: ", err); });
+        tx.executeSql('SELECT * FROM foo', [], (function (tx, res) {
+          debugger;
+          expect(res.rows[0].text).to.equal("foobar");
+          done();
+        }),
+        function (tx, err) {
+          expect(1).to.equal(2);
+          console.log("err: ", err);
+          done();
+        });
+      });
+    });
+
   });
 });
 
