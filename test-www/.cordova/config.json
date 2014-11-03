@@ -1,0 +1,4 @@
+{
+    "id": "com.msopentech.websql.tests",
+    "name": "Cordova SQLite Plugin Test Runner"
+}
