@@ -7,7 +7,7 @@
 param([string]$platform)
 
 if (! $platform) {
-  echo "usage: .\bin\test.sh [windows]"
+  echo "usage: .\bin\test.ps1 [windows]"
   exit 1
 }
 
@@ -32,7 +32,7 @@ try {
   cp -recurse ../src, ../plugin.xml, ../www ../.plugin
 
   # update the plugin, run the test app
-  cordova platform add $platform -- --win
+  cordova platform add $platform
   cordova plugin rm com.msopentech.websql
   cordova plugin add ../.plugin
   
